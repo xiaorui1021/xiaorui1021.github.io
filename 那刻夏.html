@@ -1,0 +1,209 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师介绍</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        neutral: '#F5F7FA',
+                        dark: '#333333',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .card-hover {
+                @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter text-dark">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+            <!-- 图片轮播区域 -->
+            <div class="relative h-64 sm:h-80 md:h-96 overflow-hidden">
+                <div class="flex transition-transform duration-500 ease-in-out" id="imageSlider">
+                    <div class="min-w-full h-full">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/241f95cad1c8a786c91766f6ef53de3d70cf3ac7fa8b?x-bce-process=image/format,f_auto/resize,m_lfit,limit_1,h_1000" alt="老师自拍1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="min-w-full h-full">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/4034970a304e251f95cac7002fdcde177f3e6609f58b?x-bce-process=image/format,f_auto/resize,m_lfit,limit_1,h_1000" alt="老师自拍2" class="w-full h-full object-cover">
+                    </div>
+                    <div class="min-w-full h-full">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/1c950a7b02087bf40ad1ea3a7089402c11dfa8ec6197?x-bce-process=image/format,f_auto/resize,m_lfit,limit_1,h_1000" alt="大家的评价" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <!-- 轮播控制按钮 -->
+                <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white rounded-full w-10 h-10 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity" id="prevBtn">
+                    <i class="fa fa-angle-left text-xl"></i>
+                </button>
+                <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white rounded-full w-10 h-10 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity" id="nextBtn">
+                    <i class="fa fa-angle-right text-xl"></i>
+                </button>
+                <!-- 指示器 -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                    <button class="w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition-opacity active-indicator" data-index="0"></button>
+                    <button class="w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition-opacity" data-index="1"></button>
+                    <button class="w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition-opacity" data-index="2"></button>
+                </div>
+            </div>
+            
+            <!-- 内容区域 -->
+            <div class="p-6">
+                <!-- 标题 -->
+                <div class="mb-4">
+                    <h1 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-dark mb-2">金牌导师：那刻夏</h1>
+                    <!-- 特色标签 -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">平易进人</span>
+                        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">性格开朗</span>
+                        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">经验丰富</span>
+                        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">长相帅气</span>
+                    </div>
+                </div>
+                
+                <!-- 详细描述 -->
+                <div class="mb-6">
+                    <p class="text-gray-600 text-lg mb-3">那刻夏一直在研究的炼金术高深莫测，还主张人神同源 [3]。阿那克萨戈拉斯不喜欢学生称呼他“那刻夏”的真实原因，是因为这个名字倒过来念就成了“下课呐”，阿那克萨戈拉斯担心这会造成一些负面的心理暗示。虽然那刻夏是如此的严厉，但对于广大学生来说，能在他门下学习绝对是一种荣幸 [6]，由于阿那克萨戈拉斯难记，学生私底下便称他“那老师”、“夏老师”、“那个夏老师” 。
+那刻夏是大地兽激推，在那刻夏看来，大地兽是非常好的倾听者，他还买了很多大地兽周边，晚上会换上大地兽的睡衣，抱着大地兽玩偶，享受一段由他推制品陪伴的良好睡眠时光 [3]。在常人眼里大地兽愚昧无知，但那刻夏认为它有诸多优点，沉稳，安静、脾气好、食量大 ，甚至想下次在学院门口挂上一块牌子：“不懂大地兽者，不得入内” 。那刻夏还加入了大地兽关爱协会，是杰出志愿者，并发表了论文《大地兽长寿指南：从饲养到陪伴》、《大地兽肌肉结构解析与微表情解读》。那刻夏睡觉时所穿大地兽的睡衣，为了尽可能还原，他会确保帽檐超过头顶中线，只有充分包裹头部才能更好地模仿大地兽。色彩选择上，那刻夏更推荐大地兽蓝，尾巴的填充也必须蓬松柔软有弹性，这样能有助于入睡 </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 联系人信息 -->
+                <div class="flex items-center mb-6">
+                    <img src="https://picsum.photos/100/100?random=10" alt="联系人头像" class="w-12 h-12 rounded-full object-cover">
+                    <div class="ml-4">
+                        <h3 class="font-semibold text-lg">遐蝶女士</h3>
+                        <p class="text-gray-500 text-sm">那刻夏老师的学生 |</p>
+                    </div>
+                </div>
+                
+                 <!-- 按钮区域 -->
+                 <div class="flex flex-col sm:flex-row gap-3">
+                     <!-- 立即联系按钮：链接到电话拨打（tel:协议） -->
+                     <a href="tel:4006666312" class="flex-1 bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center">
+                     <i class="fa fa-phone mr-2"></i>
+                     <span>立即联系</span>
+                     </a>
+    
+                     <!-- 介绍视频按钮：链接到视频页面（示例网址） -->
+                     <a href="https://xiaorui1021.github.io/那刻夏-video.html" target="_blank" class="flex-1 bg-white border border-gray-200 hover:border-primary hover:text-primary font-medium py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center">
+                     <i class="fa fa-heart-o mr-2"></i>
+                     <span>介绍视频</span>
+                     </a>
+                 </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 图片轮播功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('imageSlider');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const indicators = document.querySelectorAll('[data-index]');
+            let currentIndex = 0;
+            const slideCount = indicators.length;
+            
+            // 设置轮播自动播放
+            let slideInterval = setInterval(nextSlide, 5000);
+            
+            function showSlide(index) {
+                // 清除自动播放计时器
+                clearInterval(slideInterval);
+                
+                // 更新当前索引并确保在有效范围内
+                currentIndex = (index + slideCount) % slideCount;
+                
+                // 移动轮播
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // 更新指示器状态
+                indicators.forEach((indicator, i) => {
+                    if (i === currentIndex) {
+                        indicator.classList.add('opacity-100');
+                        indicator.classList.add('active-indicator');
+                    } else {
+                        indicator.classList.remove('opacity-100');
+                        indicator.classList.remove('active-indicator');
+                    }
+                });
+                
+                // 重新设置自动播放计时器
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            function nextSlide() {
+                showSlide(currentIndex + 1);
+            }
+            
+            function prevSlide() {
+                showSlide(currentIndex - 1);
+            }
+            
+            // 绑定按钮事件
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+            
+            // 绑定指示器事件
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', () => {
+                    const index = parseInt(indicator.dataset.index);
+                    showSlide(index);
+                });
+            });
+            
+            // 添加触摸滑动支持
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            slider.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+                clearInterval(slideInterval);
+            }, { passive: true });
+            
+            slider.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+                slideInterval = setInterval(nextSlide, 5000);
+            }, { passive: true });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                if (touchEndX - touchStartX > swipeThreshold) {
+                    prevSlide();
+                } else if (touchEndX - touchStartX < -swipeThreshold) {
+                    nextSlide();
+                }
+            }
+        });
+    </script>
+
+
+    
+    </body></html>

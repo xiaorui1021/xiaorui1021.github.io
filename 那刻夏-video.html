@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    <!-- 返回按钮 -->
+    <div class="p-4">
+        <a href="https://xiaorui1021.github.io/那刻夏.html" class="inline-flex items-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+            <i class="fa fa-arrow-left mr-2"></i>
+            <span>返回</span>
+        </a>
+    </div>
+    
+    <!-- 视频播放区域 -->
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-black rounded-lg overflow-hidden shadow-2xl">
+            <!-- 原生HTML5视频播放器 -->
+            <video 
+                controls 
+                class="w-full aspect-video"
+                poster="https://picsum.photos/1280/720?random=30"
+                preload="metadata"
+            >
+                <!-- 替换为实际视频URL -->
+                <source src="https://s3plus.meituan.net/opapisdk/op_ticket_885190757_1753952210923_qdqqd_0fxgps.mp4" type="video/mp4">
+                您的浏览器不支持HTML5视频播放
+            </video>
+        </div>
+    </div>
+</body>
+</html>
+    
