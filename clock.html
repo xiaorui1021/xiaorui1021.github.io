@@ -39,8 +39,8 @@
             .bg-default {
                 background-image: linear-gradient(to bottom right, #1E293B, #0F172A);
             }
-            .bg-fate {
-                background-image: url('image/bgc.jpg');
+            .bg-custom {
+                background-image: url('https://xiaorui1021.github.io/image/bgc.jpg');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -76,6 +76,26 @@
             </div>
         </div>
         
+        <!-- 字体透明度调节 -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-1">
+                <label class="text-sm">字体透明度</label>
+                <span id="fontOpacityValue" class="text-xs text-secondary">100%</span>
+            </div>
+            <input type="range" id="fontOpacity" min="50" max="100" value="100" 
+                   class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-accent">
+        </div>
+        
+        <!-- 背景透明度调节 -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-1">
+                <label class="text-sm">背景透明度</label>
+                <span id="bgOpacityValue" class="text-xs text-secondary">100%</span>
+            </div>
+            <input type="range" id="bgOpacity" min="50" max="100" value="100" 
+                   class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-accent">
+        </div>
+        
         <!-- 是否显示秒数 -->
         <div class="mb-4 flex items-center justify-between">
             <label class="text-sm">显示秒数</label>
@@ -85,11 +105,11 @@
             </label>
         </div>
         
-        <!-- 是否显示Fate背景 -->
+        <!-- 是否显示自定义背景 -->
         <div class="mb-4 flex items-center justify-between">
-            <label class="text-sm">显示Fate背景</label>
+            <label class="text-sm">显示自定义背景</label>
             <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="showFateBackground" class="sr-only peer">
+                <input type="checkbox" id="showCustomBackground" class="sr-only peer">
                 <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
             </label>
         </div>
@@ -120,20 +140,30 @@
     <script>
         // 从本地存储加载设置
         const loadSettings = () => {
-            const savedColor = localStorage.getItem('clockTextColor');
+            const savedColor = localStorage.getItem('clockTextColor') || 'white';
             const showSeconds = localStorage.getItem('showSeconds') !== 'false';
-            const showFateBackground = localStorage.getItem('showFateBackground') === 'true';
+            const showCustomBackground = localStorage.getItem('showCustomBackground') === 'true';
+            const fontOpacity = localStorage.getItem('fontOpacity') || 100;
+            const bgOpacity = localStorage.getItem('bgOpacity') || 100;
             
-            if (savedColor) {
-                document.getElementById('time').style.color = savedColor;
-                document.getElementById('date').style.color = savedColor;
-            }
+            // 应用字体颜色
+            document.getElementById('time').style.color = savedColor;
+            document.getElementById('date').style.color = savedColor;
             
+            // 应用透明度设置
+            applyFontOpacity(fontOpacity);
+            applyBackgroundOpacity(bgOpacity);
+            
+            // 设置滑块值
+            document.getElementById('fontOpacity').value = fontOpacity;
+            document.getElementById('bgOpacity').value = bgOpacity;
+            document.getElementById('fontOpacityValue').textContent = `${fontOpacity}%`;
+            document.getElementById('bgOpacityValue').textContent = `${bgOpacity}%`;
+            
+            // 应用其他设置
             document.getElementById('showSeconds').checked = showSeconds;
-            document.getElementById('showFateBackground').checked = showFateBackground;
-            
-            // 应用Fate背景设置
-            applyBackgroundSetting(showFateBackground);
+            document.getElementById('showCustomBackground').checked = showCustomBackground;
+            applyBackgroundSetting(showCustomBackground);
         };
         
         // 保存设置到本地存储
@@ -142,15 +172,57 @@
         };
         
         // 应用背景设置
-        const applyBackgroundSetting = (useFateBackground) => {
+        const applyBackgroundSetting = (useCustomBackground) => {
             const body = document.body;
-            if (useFateBackground) {
+            if (useCustomBackground) {
                 body.classList.remove('bg-default');
-                body.classList.add('bg-fate');
+                body.classList.add('bg-custom');
             } else {
-                body.classList.remove('bg-fate');
+                body.classList.remove('bg-custom');
                 body.classList.add('bg-default');
             }
+        };
+        
+        // 应用字体透明度
+        const applyFontOpacity = (opacity) => {
+            const alpha = opacity / 100;
+            const timeElement = document.getElementById('time');
+            const dateElement = document.getElementById('date');
+            
+            // 解析当前颜色
+            const timeColor = window.getComputedStyle(timeElement).color;
+            const dateColor = window.getComputedStyle(dateElement).color;
+            
+            // 应用透明度
+            timeElement.style.color = adjustColorOpacity(timeColor, alpha);
+            dateElement.style.color = adjustColorOpacity(dateColor, alpha);
+        };
+        
+        // 应用背景透明度
+        const applyBackgroundOpacity = (opacity) => {
+            const alpha = opacity / 100;
+            document.body.style.opacity = alpha;
+        };
+        
+        // 调整颜色透明度的辅助函数
+        const adjustColorOpacity = (color, alpha) => {
+            // 简单处理 hex 颜色
+            if (color.startsWith('#')) {
+                const hex = color.replace('#', '');
+                const r = parseInt(hex.substring(0, 2), 16);
+                const g = parseInt(hex.substring(2, 4), 16);
+                const b = parseInt(hex.substring(4, 6), 16);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+            
+            // 处理 rgb/rgba 颜色
+            const rgbMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)/);
+            if (rgbMatch) {
+                return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${alpha})`;
+            }
+            
+            // 默认返回白色带透明度
+            return `rgba(255, 255, 255, ${alpha})`;
         };
         
         // 更新时间和日期的函数
@@ -208,10 +280,31 @@
         document.querySelectorAll('.color-option').forEach(option => {
             option.addEventListener('click', () => {
                 const color = option.getAttribute('data-color');
-                document.getElementById('time').style.color = color;
-                document.getElementById('date').style.color = color;
+                const fontOpacity = document.getElementById('fontOpacity').value;
+                const alpha = fontOpacity / 100;
+                
+                // 应用颜色和当前透明度
+                document.getElementById('time').style.color = adjustColorOpacity(color, alpha);
+                document.getElementById('date').style.color = adjustColorOpacity(color, alpha);
+                
                 saveSetting('clockTextColor', color);
             });
+        });
+        
+        // 字体透明度调节
+        document.getElementById('fontOpacity').addEventListener('input', (e) => {
+            const opacity = e.target.value;
+            document.getElementById('fontOpacityValue').textContent = `${opacity}%`;
+            applyFontOpacity(opacity);
+            saveSetting('fontOpacity', opacity);
+        });
+        
+        // 背景透明度调节
+        document.getElementById('bgOpacity').addEventListener('input', (e) => {
+            const opacity = e.target.value;
+            document.getElementById('bgOpacityValue').textContent = `${opacity}%`;
+            applyBackgroundOpacity(opacity);
+            saveSetting('bgOpacity', opacity);
         });
         
         // 显示秒数开关
@@ -220,11 +313,11 @@
             updateTime(); // 立即更新显示
         });
         
-        // Fate背景开关
-        document.getElementById('showFateBackground').addEventListener('change', (e) => {
-            const useFateBackground = e.target.checked;
-            saveSetting('showFateBackground', useFateBackground);
-            applyBackgroundSetting(useFateBackground);
+        // 自定义背景开关
+        document.getElementById('showCustomBackground').addEventListener('change', (e) => {
+            const useCustomBackground = e.target.checked;
+            saveSetting('showCustomBackground', useCustomBackground);
+            applyBackgroundSetting(useCustomBackground);
         });
         
         // 全屏功能
