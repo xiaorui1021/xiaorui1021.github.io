@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>桌面时钟</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E293B',
+                        secondary: '#94A3B8',
+                        accent: '#3B82F6',
+                    },
+                    fontFamily: {
+                        digital: ['Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .transition-smooth {
+                transition: all 0.3s ease-in-out;
+            }
+            .menu-btn {
+                opacity: 0.3;
+            }
+            .menu-btn:hover {
+                opacity: 1;
+            }
+            .bg-default {
+                background-image: linear-gradient(to bottom right, #1E293B, #0F172A);
+            }
+            .bg-fate {
+                background-image: url('https://tc.z.wiki/autoupload/f/kmFFrqOr-PevAr4UbX2aqT5DG0c29evPZNggoi9fI-yyl5f0KlZfm6UsKj-HyTuv/20250803/AcLC/1920X1080/Screenshot_2025-08-01-14-27-25-803_tv.danmaku.bil.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+    </style>
+</head>
+<body class="bg-default text-white min-h-screen flex flex flex-col items-center justify-center overflow-hidden">
+    <!-- 菜单按钮 -->
+    <button id="menuBtn" class="menu-btn absolute top-4 left-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-smooth z-10">
+        <i class="fa fa-bars text-secondary text-xl"></i>
+    </button>
+    
+    <!-- 全屏切换按钮 -->
+    <button id="fullscreenBtn" class="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-smooth z-10">
+        <i class="fa fa-expand text-secondary text-xl"></i>
+    </button>
+    
+    <!-- 设置菜单 -->
+    <div id="settingsMenu" class="hidden absolute top-16 left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 shadow-xl z-20 w-64">
+        <h3 class="text-lg font-medium mb-3 text-center">设置</h3>
+        
+        <!-- 字体颜色选择 -->
+        <div class="mb-4">
+            <label class="block text-sm mb-2">字体颜色</label>
+            <div class="flex gap-2">
+                <button class="color-option w-6 h-6 rounded-full bg-white" data-color="white"></button>
+                <button class="color-option w-6 h-6 rounded-full bg-yellow-300" data-color="#FDE68A"></button>
+                <button class="color-option w-6 h-6 rounded-full bg-blue-300" data-color="#93C5FD"></button>
+                <button class="color-option w-6 h-6 rounded-full bg-green-300" data-color="#A7F3D0"></button>
+                <button class="color-option w-6 h-6 rounded-full bg-red-300" data-color="#FECACA"></button>
+                <button class="color-option w-6 h-6 rounded-full bg-purple-300" data-color="#EDE9FE"></button>
+            </div>
+        </div>
+        
+        <!-- 是否显示秒数 -->
+        <div class="mb-4 flex items-center justify-between">
+            <label class="text-sm">显示秒数</label>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="showSeconds" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+            </label>
+        </div>
+        
+        <!-- 是否显示Fate背景 -->
+        <div class="mb-4 flex items-center justify-between">
+            <label class="text-sm">显示Fate背景</label>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="showFateBackground" class="sr-only peer">
+                <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+            </label>
+        </div>
+        
+        <!-- 友情链接 -->
+        <div class="pt-3 border-t border-slate-700">
+            <label class="block text-sm mb-2">友情链接</label>
+            <a href="https://xiaorui1021.github.io" target="_blank" class="flex items-center text-accent hover:underline text-sm transition-smooth">
+                <i class="fa fa-link mr-2"></i>
+                <span>xiaorui1021.github.io</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- 时钟容器 -->
+    <div class="container mx-auto px-4 text-center">
+        <!-- 时间显示 -->
+        <div id="time" class="font-digital text-[clamp(5rem,20vw,10rem)] font-bold mb-2 text-shadow leading-none">
+            00:00:00
+        </div>
+        
+        <!-- 日期显示 -->
+        <div id="date" class="font-digital text-[clamp(1.2rem,5vw,2rem)] text-secondary mb-6">
+            星期一, 2023年1月1日
+        </div>
+    </div>
+
+    <script>
+        // 从本地存储加载设置
+        const loadSettings = () => {
+            const savedColor = localStorage.getItem('clockTextColor');
+            const showSeconds = localStorage.getItem('showSeconds') !== 'false';
+            const showFateBackground = localStorage.getItem('showFateBackground') === 'true';
+            
+            if (savedColor) {
+                document.getElementById('time').style.color = savedColor;
+                document.getElementById('date').style.color = savedColor;
+            }
+            
+            document.getElementById('showSeconds').checked = showSeconds;
+            document.getElementById('showFateBackground').checked = showFateBackground;
+            
+            // 应用Fate背景设置
+            applyBackgroundSetting(showFateBackground);
+        };
+        
+        // 保存设置到本地存储
+        const saveSetting = (key, value) => {
+            localStorage.setItem(key, value);
+        };
+        
+        // 应用背景设置
+        const applyBackgroundSetting = (useFateBackground) => {
+            const body = document.body;
+            if (useFateBackground) {
+                body.classList.remove('bg-default');
+                body.classList.add('bg-fate');
+            } else {
+                body.classList.remove('bg-fate');
+                body.classList.add('bg-default');
+            }
+        };
+        
+        // 更新时间和日期的函数
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.getElementById('time');
+            const showSeconds = document.getElementById('showSeconds').checked;
+            
+            // 格式化时间
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            let timeString = `${hours}:${minutes}`;
+            if (showSeconds) {
+                timeString += `:${seconds}`;
+            }
+            timeElement.textContent = timeString;
+            
+            // 格式化日期
+            const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            const weekday = weekdays[now.getDay()];
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1; // 月份从0开始，所以加1
+            const day = now.getDate();
+            document.getElementById('date').textContent = `${weekday}, ${year}年${month}月${day}日`;
+        }
+        
+        // 初始化并每秒更新一次
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // 菜单功能
+        const menuBtn = document.getElementById('menuBtn');
+        const settingsMenu = document.getElementById('settingsMenu');
+        
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsMenu.classList.toggle('hidden');
+        });
+        
+        // 点击其他区域关闭菜单
+        document.addEventListener('click', () => {
+            if (!settingsMenu.classList.contains('hidden')) {
+                settingsMenu.classList.add('hidden');
+            }
+        });
+        
+        // 防止点击菜单内部时关闭菜单
+        settingsMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // 字体颜色选择
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const color = option.getAttribute('data-color');
+                document.getElementById('time').style.color = color;
+                document.getElementById('date').style.color = color;
+                saveSetting('clockTextColor', color);
+            });
+        });
+        
+        // 显示秒数开关
+        document.getElementById('showSeconds').addEventListener('change', (e) => {
+            saveSetting('showSeconds', e.target.checked);
+            updateTime(); // 立即更新显示
+        });
+        
+        // Fate背景开关
+        document.getElementById('showFateBackground').addEventListener('change', (e) => {
+            const useFateBackground = e.target.checked;
+            saveSetting('showFateBackground', useFateBackground);
+            applyBackgroundSetting(useFateBackground);
+        });
+        
+        // 全屏功能
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        fullscreenBtn.addEventListener('click', toggleFullScreen);
+        
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`全屏请求错误: ${err.message}`);
+                });
+                fullscreenBtn.innerHTML = '<i class="fa fa-compress text-secondary text-xl"></i>';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    fullscreenBtn.innerHTML = '<i class="fa fa-expand text-secondary text-xl"></i>';
+                }
+            }
+        }
+        
+        // 监听全屏状态变化
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                fullscreenBtn.innerHTML = '<i class="fa fa-compress text-secondary text-xl"></i>';
+            } else {
+                fullscreenBtn.innerHTML = '<i class="fa fa-expand text-secondary text-xl"></i>';
+            }
+        });
+        
+        // 防止屏幕自动关闭
+        let wakeLock = null;
+        
+        async function requestWakeLock() {
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+                wakeLock.addEventListener('release', () => {
+                    console.log('屏幕唤醒锁已释放');
+                });
+                console.log('屏幕唤醒锁已激活');
+            } catch (err) {
+                console.log(`无法获取唤醒锁: ${err.message}`);
+            }
+        }
+        
+        // 尝试获取唤醒锁，保持屏幕常亮
+        if ('wakeLock' in navigator) {
+            requestWakeLock();
+            
+            // 用户交互时重新获取唤醒锁
+            document.addEventListener('click', () => {
+                if (wakeLock === null || wakeLock.released) {
+                    requestWakeLock();
+                }
+            });
+        }
+        
+        // 加载保存的设置
+        loadSettings();
+    </script>
+</body>
+</html>
