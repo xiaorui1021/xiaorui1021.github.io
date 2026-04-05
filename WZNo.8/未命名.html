@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abacus Online Experience | 算盘线上体验</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #F5F5DC;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+        }
+        h1 {
+            color: #8B4513;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #D9251D;
+            font-size: 20px;
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+        .btn {
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #D9251D;
+        }
+        .tip {
+            color: #333;
+            font-size: 16px;
+        }
+    </style>
+    <!-- 核心：5秒自动跳转到你的在线算盘页面 -->
+    <meta http-equiv="refresh" content="5; url=这里替换成你的GitHub Pages算盘链接">
+</head>
+<body>
+    <div class="container">
+        <h1>Chinese Abacus · Online Experience</h1>
+        <h2>中国算盘 | 两弹一星精神 | 线上互动体验</h2>
+        
+        <!-- 手动跳转按钮（防止自动跳转失效） -->
+        <button class="btn" onclick="window.location.href='这里替换成你的GitHub Pages算盘链接'">
+            Enter Abacus Now 立即进入
+        </button>
+        
+        <p class="tip">Redirecting automatically in 5 seconds...<br>5秒后自动跳转至在线算盘</p>
+    </div>
+</body>
+</html>
